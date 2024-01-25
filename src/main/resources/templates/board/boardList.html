@@ -1,0 +1,43 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>게시판</title>
+</head>
+<body>
+<div class="container text-center" style="font-size: 23px">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1></h1>
+        <h1>게시판</h1>
+        <a href="/board/new" class="btn btn-primary">글등록</a>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>조회수</th>
+            <th colspan="2">기타</th>
+        </tr>
+        <tr th:each="board : ${boards}">
+            <td th:text="${board.getNum()}"></td>
+            <td>
+                <a th:text="${board.getTitle()}" th:href="@{/board/detail/{id}(id=${board.getNum()})}"></a>
+            </td>
+            <td th:text="${board.getWriter()}"></td>
+            <td th:text="${board.changeDate()}"></td>
+            <td th:text="${board.getCnt()}"></td>
+            <td>
+                <a th:href="@{/board/edit/{num}(num=${board.getNum()})}" class="btn btn-primary">수정</a>
+            </td>
+            <td>
+                <a th:href="@{/board/delete/{num}(num=${board.getNum()})}" class="btn btn-danger">삭제</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

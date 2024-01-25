@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>글등록</title>
+</head>
+<body>
+<form action="/board/new" method="post">
+    <div class="container text-center" style="width: 500px">
+        <div class="card border-dark mb-3" style="max-width: 50rem;">
+            <h1>글등록</h1>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">제목</span>
+                    <input type="text" placeholder="제목" class="form-control" name="title" required>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">작성자</span>
+                    <input type="text" placeholder="작성자" class="form-control" name="writer" required>
+                </div>
+                <!--<input type="hidden" name="writer" value="작성자">-->
+                <div class="input-group">
+                    <span class="input-group-text">내용</span>
+                    <textarea class="form-control" placeholder="내용" name="content"></textarea>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" value="등록" class="btn btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
