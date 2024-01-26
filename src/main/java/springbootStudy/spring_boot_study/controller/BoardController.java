@@ -30,7 +30,15 @@ public class BoardController {
     @GetMapping("/board")
     public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "num", direction = Sort.Direction.DESC) Pageable pageable){
         Page<Board> boards = boardService.getBoardList(pageable);
+
+        int nowPage = boards.getPageable().getPageNumber();
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5,boards.getTotalPages());
+
         model.addAttribute("boards",boards);
+        model.addAttribute("nowPage",nowPage);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
         return "board/boardList";
     }
 
