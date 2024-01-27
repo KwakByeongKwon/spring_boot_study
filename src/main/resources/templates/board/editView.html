@@ -6,6 +6,7 @@
     <title>글수정</title>
 </head>
 <body>
+<div th:replace="header :: header"></div>
 <form th:action="@{/board/edit/{num}(num=${board.getNum()})}" method="post">
     <div class="container text-center" style="width: 500px">
         <div class="card border-dark mb-3" style="max-width: 50rem;">

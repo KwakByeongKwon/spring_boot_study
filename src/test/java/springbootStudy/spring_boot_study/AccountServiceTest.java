@@ -37,5 +37,18 @@ public class AccountServiceTest {
         // 예: 특정 페이지의 요소 수 검증, 특정 데이터 존재 여부 등
     }
 
+
+//    @Test
+//    public void testLogin(){
+//        Account account = new Account();
+//        account.setAccountId("1234");
+//        account.setAccountPw("1111");
+//
+//        String id = "1234";
+//        String pw = "1111";
+//
+//        assertFalse(accountService.accountCheck(id,pw));
+//    }
+
     // 기타 필요한 테스트 메소드 추가...
 }

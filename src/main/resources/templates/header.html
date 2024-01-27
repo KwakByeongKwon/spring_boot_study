@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">JSP 게시판 웹사이트</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/board">게시판</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true"><b><%= nickName %></b>님</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/account/logout" style="color:red;">로그아웃</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            더보기
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li th:if="${id == null}" class="active">
+                                <a class="dropdown-item" href="/account/login">로그인</a>
+                            </li>
+                            <li th:if="${id == null}">
+                                <a class="dropdown-item" href="/account/signup">회원가입</a>
+                            </li>
+
+                            <li th:unless="${id == null}">
+                                <a class="dropdown-item" href="#" th:text="${id}">사용자ID</a>
+                            </li>
+                            <li th:unless="${id == null}">
+                                <a class="dropdown-item" href="#">회원정보</a>
+                            </li>
+                            <li th:unless="${id == null}">
+                                <a class="dropdown-item" href="/account/logout">로그아웃</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br>
+</header>
+</body>
+</html>
