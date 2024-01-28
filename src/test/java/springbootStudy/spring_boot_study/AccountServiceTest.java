@@ -30,7 +30,6 @@ public class AccountServiceTest {
             account.setNickName(account.getName());
         }
         accountService.registration(account);
-        System.out.println(account.getNickName());
 
         assertNotNull(account);
         // 추가적인 검증 로직을 여기에 작성할 수 있습니다.

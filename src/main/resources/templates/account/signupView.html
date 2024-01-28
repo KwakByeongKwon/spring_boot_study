@@ -15,26 +15,30 @@
     <div class="row">
         <div class="col mb-4"></div>
         <div class="col mb-4" style="padding-top:20px;">
-            <form action="/account/login" method="post">
+            <form action="/account/signup" method="post">
                 <h3>회원가입</h3>
                 <div class="form-group">
                     <div class="input-group mb-3">
-                        <span class="input-group-text fixed-width-span">ID</span>
-                        <input type="text" class="form-control" placeholder="ID" name="id" required>
+                        <span class="input-group-text fixed-width-span">이름</span>
+                        <input type="text" class="form-control" placeholder="이름" name="name" required>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text fixed-width-span">별명</span>
                         <input type="text" class="form-control" placeholder="별명" name="nickName">
                     </div>
                     <div class="input-group mb-3">
+                        <span class="input-group-text fixed-width-span">ID</span>
+                        <input type="text" class="form-control" placeholder="ID" name="accountId" required>
+                    </div>
+                    <div class="input-group mb-3">
                         <span class="input-group-text fixed-width-span">PW</span>
-                        <input type="password" class="form-control" placeholder="•••••••••••" name="pw" required>
+                        <input type="password" class="form-control" placeholder="•••••••••••" name="accountPw" required>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text fixed-width-span">PW확인</span>
-                        <input type="password" class="form-control" placeholder="•••••••••••" name="pw" required>
+                        <input type="password" class="form-control" placeholder="•••••••••••" name="accountPwCheck" required>
                     </div>
-
+                    <b><div th:if="${signupError}" th:text="${signupError}"></div></b>
                 </div>
                 <button class="btn btn-success form-control">회원가입</button>
                 <br>

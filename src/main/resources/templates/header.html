@@ -11,7 +11,7 @@
 <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">JSP 게시판 웹사이트</a>
+            <a class="navbar-brand" href="#">SPRING_BOOT_웹사이트</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -21,7 +21,7 @@
                         <a class="nav-link" href="/board">게시판</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true"><b><%= nickName %></b>님</a>
+                        <a class="nav-link disabled" aria-disabled="true"><b th:text="${nickName}"></b>님</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/account/logout" style="color:red;">로그아웃</a>

@@ -1,5 +1,8 @@
 package springbootStudy.spring_boot_study.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,9 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import springbootStudy.spring_boot_study.controller.Form.EditForm;
 import springbootStudy.spring_boot_study.controller.Form.UpLoadForm;
 import springbootStudy.spring_boot_study.domain.Board;
@@ -27,10 +28,19 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @GetMapping("/board")
-    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "num", direction = Sort.Direction.DESC) Pageable pageable){
-        Page<Board> boards = boardService.getBoardList(pageable);
+    @ModelAttribute
+    public void addAttributes(HttpServletRequest request, Model model){
+        String nickName = getNickNameCookie(request);
+        model.addAttribute("nickName", nickName);
+    }
 
+
+    @GetMapping("/board")
+    public String boardList(HttpServletRequest request,Model model, @PageableDefault(page = 0, size = 10, sort = "num", direction = Sort.Direction.DESC) Pageable pageable){
+        if (getNickNameCookie(request) == null){
+            return "redirect:/account/login";
+        }
+        Page<Board> boards = boardService.getBoardList(pageable);
         int nowPage = boards.getPageable().getPageNumber();
         int startPage = Math.max(nowPage - 4, 1);
         int endPage = Math.min(nowPage + 5,boards.getTotalPages());
@@ -43,7 +53,10 @@ public class BoardController {
     }
 
     @GetMapping("/board/new")
-    public String uploadView(){
+    public String uploadView(HttpServletRequest request){
+        if (getNickNameCookie(request) == null){
+            return "redirect:/account/login";
+        }
         return "board/uploadView";
     }
 
@@ -88,5 +101,19 @@ public class BoardController {
     public String realDelete(@PathVariable("num") Long num){
         boardService.deleteBoard(num);
         return "redirect:/board";
+    }
+
+    public String getNickNameCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String nickName = null;
+        if (cookies != null){
+            for (Cookie cookie : cookies) {
+                if(cookie.getName().equals("nickName")){
+                    nickName = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return nickName;
     }
 }

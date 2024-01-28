@@ -1,22 +1,22 @@
 package springbootStudy.spring_boot_study.controller.Form;
 
 public class LoginForm {
-    private String id;
-    private String pw;
+    private String accountId;
+    private String accountPw;
 
-    public String getId() {
-        return id;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
-    public String getPw() {
-        return pw;
+    public String getAccountPw() {
+        return accountPw;
     }
 
-    public void setPw(String pw) {
-        this.pw = pw;
+    public void setAccountPw(String accountPw) {
+        this.accountPw = accountPw;
     }
 }
