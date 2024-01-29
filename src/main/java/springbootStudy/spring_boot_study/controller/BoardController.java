@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -36,10 +37,13 @@ public class BoardController {
 
 
     @GetMapping("/board")
-    public String boardList(HttpServletRequest request,Model model, @PageableDefault(page = 0, size = 10, sort = "num", direction = Sort.Direction.DESC) Pageable pageable){
+    public String boardList(HttpServletRequest request,Model model,
+                            @RequestParam(value = "page", defaultValue = "1") int page,
+                            @RequestParam(value = "size", defaultValue = "10") int size){
         if (getNickNameCookie(request) == null){
             return "redirect:/account/login";
         }
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("num").descending());
         Page<Board> boards = boardService.getBoardList(pageable);
         int nowPage = boards.getPageable().getPageNumber();
         int startPage = Math.max(nowPage - 4, 1);
@@ -49,14 +53,18 @@ public class BoardController {
         model.addAttribute("nowPage",nowPage);
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
+
+        System.out.println("nowPage: "+ nowPage);
+        System.out.println("boards.getTotalPages() = " + boards.getTotalPages());
         return "board/boardList";
     }
 
     @GetMapping("/board/new")
-    public String uploadView(HttpServletRequest request){
+    public String uploadView(HttpServletRequest request,Model model){
         if (getNickNameCookie(request) == null){
             return "redirect:/account/login";
         }
+        model.addAttribute("nickName",getNickNameCookie(request));
         return "board/uploadView";
     }
 
@@ -71,7 +79,8 @@ public class BoardController {
     }
 
     @GetMapping("/board/detail/{num}")
-    public String detailView(@PathVariable("num") Long num,Model model){
+    public String detailView(@PathVariable("num") Long num, Model model){
+        boardService.cntUp(num);
         Board board = boardService.selectOne(num);
         model.addAttribute("board",board);
         return "board/detailView";

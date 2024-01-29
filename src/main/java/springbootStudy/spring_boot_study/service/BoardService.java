@@ -32,6 +32,15 @@ public class BoardService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."));
     }
 
+    public void cntUp(long num){
+        Optional<Board> boardOptional = boardRepository.findById(num);
+        if (boardOptional.isPresent()){
+            Board board = boardOptional.get();
+            board.setCnt(board.getCnt() + 1);
+            boardRepository.save(board);
+        }
+    }
+
     public Board updateBoard(Long num, String title, String content){
         Optional<Board> boardOptional = boardRepository.findById(num);
         if (boardOptional.isPresent()){

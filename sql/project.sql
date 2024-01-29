@@ -30,3 +30,32 @@ CREATE SEQUENCE "ACCOUNT_SEQ"
     nocache
     nocycle
     noorder;
+
+CREATE TABLE "FILE" (
+                         "ID" number PRIMARY KEY ,
+                         "FILE_NAME" varchar2(50) ,
+                         "FILE_PATH" varchar2(1000) ,
+                         "FILE_SIZE" number,
+                         "BOARD_NUM" number,
+                         CONSTRAINT FK_FILE_BOARD FOREIGN KEY ("BOARD_NUM")
+                            REFERENCES BOARD ("NUM")
+);
+
+CREATE SEQUENCE "FILE_SEQ"
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 99999
+    nocache
+    nocycle
+    noorder;
+
+
+
+/* 지우기 */
+  drop table "BOARD";
+  drop table "ACCOUNT";
+  drop table "FILE";
+
+  drop sequence "BOARD_SEQ";
+  drop sequence "ACCOUNT_SEQ";
+  drop sequence "FILE_SEQ";

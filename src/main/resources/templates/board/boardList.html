@@ -41,26 +41,30 @@
     <div class="d-flex justify-content-center">
         <ul class="pagination">
             <li>
-                <a th:href="@{/board(page=0, size=${boards.size})}">처음</a>
+                <a th:href="@{/board(page=1, size=${boards.size})}">처음</a>
                 &nbsp
             </li>
             <li>
-                <a th:attr="href=${nowPage != 0} ? @{/board(page=${nowPage - 1}, size=${boards.size})} : @{/board(page=0, size=${boards.size})}">이전</a>
+                <a th:attr="href=${nowPage + 1 != 1} ? @{/board(page=${nowPage}, size=${boards.size})} : @{/board(page=1, size=${boards.size})}">이전</a>
                 &nbsp
             </li>
 
-            <li th:each="page, stat : ${#numbers.sequence(startPage, endPage)}">
-                <a th:if="${nowPage != page - 1}" th:href="@{/board(page=${page - 1})}" th:text="${page}"></a>
-                <strong th:if="${nowPage == page - 1}" th:text="${page}" style="color: red"></strong>
+            <li th:if="${boards.getTotalPages() != 0}" th:each="page, stat : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${nowPage + 1 != page}" th:href="@{/board(page=${page})}" th:text="${page}"></a>
+                <strong th:if="${nowPage + 1 == page}" th:text="${page}" style="color: red"></strong>
+                &nbsp
+            </li>
+            <li th:if="${boards.getTotalPages() == 0}">
+                <strong th:text="${nowPage}" style="color: red"></strong>
                 &nbsp
             </li>
 
             <li>
-                <a th:attr="href=${nowPage != boards.totalPages - 1} ? @{/board(page=${nowPage + 1}, size=${boards.size})} : @{/board(page=${boards.totalPages - 1}, size=${boards.size})}">다음</a>
+                <a th:attr="href=${nowPage + 1 != boards.totalPages} ? @{/board(page=${nowPage + 2}, size=${boards.size})} : @{/board(page=${boards.totalPages}, size=${boards.size})}">다음</a>
                 &nbsp
             </li>
             <li>
-                <a th:href="@{/board(page=${boards.totalPages - 1}, size=${boards.size})}">마지막</a>
+                <a th:href="@{/board(page=${boards.totalPages}, size=${boards.size})}">마지막</a>
                 &nbsp
             </li>
         </ul>

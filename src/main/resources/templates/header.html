@@ -33,20 +33,20 @@
                             더보기
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li th:if="${id == null}" class="active">
+                            <li th:if="${nickName == null}" class="active">
                                 <a class="dropdown-item" href="/account/login">로그인</a>
                             </li>
-                            <li th:if="${id == null}">
+                            <li th:if="${nickName == null}">
                                 <a class="dropdown-item" href="/account/signup">회원가입</a>
                             </li>
 
-                            <li th:unless="${id == null}">
-                                <a class="dropdown-item" href="#" th:text="${id}">사용자ID</a>
+                            <li th:unless="${nickName == null}">
+                                <a class="dropdown-item" href="#" th:text="${nickName}">사용자ID</a>
                             </li>
-                            <li th:unless="${id == null}">
+                            <li th:unless="${nickName == null}">
                                 <a class="dropdown-item" href="#">회원정보</a>
                             </li>
-                            <li th:unless="${id == null}">
+                            <li th:unless="${nickName == null}">
                                 <a class="dropdown-item" href="/account/logout">로그아웃</a>
                             </li>
                         </ul>

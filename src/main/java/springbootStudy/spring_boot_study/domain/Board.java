@@ -3,14 +3,18 @@ package springbootStudy.spring_boot_study.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "board_seq_generator")
     @SequenceGenerator(name = "board_seq_generator", sequenceName = "board_SEQ", allocationSize = 1)
-
     private Long num;
+
+    @OneToMany(mappedBy = "board")
+    private List<File> files = new ArrayList<>();
     private String title;
     private String writer;
     private String content;
