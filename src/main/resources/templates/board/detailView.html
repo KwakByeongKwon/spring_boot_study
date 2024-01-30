@@ -25,6 +25,17 @@
             <td th:text="${board.getCnt()}"></td>
         </tr>
         <tr>
+            <th th:if="${file != null}" colspan="5">
+                <span>파일 [</span>
+                <a th:href="@{/download/{fileName}(fileName=${file.getFileName()})}" th:text="${file.getFileName()}" download="">Download</a>
+                <span>]</span>
+            </th>
+
+            <th th:if="${file == null}" colspan="5">
+                첨부 파일 없음
+            </th>
+        </tr>
+        <tr>
             <th colspan="5"> 내용</th>
         </tr>
         <tr>

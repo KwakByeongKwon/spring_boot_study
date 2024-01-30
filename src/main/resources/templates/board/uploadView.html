@@ -7,7 +7,7 @@
 </head>
 <body>
 <div th:replace="header :: header"></div>
-<form action="/board/new" method="post">
+<form action="/board/new" method="post" enctype="multipart/form-data">
     <div class="container text-center" style="width: 500px">
         <div class="card border-dark mb-3" style="max-width: 50rem;">
             <h1>글등록</h1>
@@ -21,6 +21,10 @@
                     <span class="input-group-text">내용</span>
                     <textarea class="form-control" placeholder="내용" name="content"></textarea>
                 </div>
+                <div class="input-group">
+                    <input type="file" class="form-control" name="file">
+                </div>
+
                 <div class="card-footer">
                     <input type="submit" value="등록" class="btn btn-primary">
                 </div>

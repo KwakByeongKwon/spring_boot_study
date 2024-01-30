@@ -3,7 +3,7 @@ package springbootStudy.spring_boot_study.domain;
 import jakarta.persistence.*;
 
 @Entity
-public class File {
+public class FileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "file_seq_generator")
     @SequenceGenerator(name = "file_seq_generator", sequenceName = "file_SEQ", allocationSize = 1)
@@ -16,6 +16,7 @@ public class File {
     @JoinColumn(name = "board_num", nullable = false)
 
     private Board board;
+
     public Long getId() {
         return id;
     }
@@ -46,5 +47,13 @@ public class File {
 
     public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }

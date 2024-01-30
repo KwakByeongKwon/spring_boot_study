@@ -31,7 +31,7 @@ CREATE SEQUENCE "ACCOUNT_SEQ"
     nocycle
     noorder;
 
-CREATE TABLE "FILE" (
+CREATE TABLE "FILE_ENTITY" (
                          "ID" number PRIMARY KEY ,
                          "FILE_NAME" varchar2(50) ,
                          "FILE_PATH" varchar2(1000) ,

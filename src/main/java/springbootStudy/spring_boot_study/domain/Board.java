@@ -3,7 +3,6 @@ package springbootStudy.spring_boot_study.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,8 +12,8 @@ public class Board {
     @SequenceGenerator(name = "board_seq_generator", sequenceName = "board_SEQ", allocationSize = 1)
     private Long num;
 
-    @OneToMany(mappedBy = "board")
-    private List<File> files = new ArrayList<>();
+    @OneToMany(mappedBy = "board" ,cascade = CascadeType.ALL)
+    private List<FileEntity> files;
     private String title;
     private String writer;
     private String content;
@@ -24,6 +23,14 @@ public class Board {
         regdate = LocalDateTime.now();
     }
     private int cnt;
+
+    public List<FileEntity> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<FileEntity> files) {
+        this.files = files;
+    }
 
     public Long getNum() {
         return num;

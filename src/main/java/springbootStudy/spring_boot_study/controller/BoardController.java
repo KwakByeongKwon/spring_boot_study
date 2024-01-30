@@ -9,24 +9,37 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springbootStudy.spring_boot_study.controller.Form.EditForm;
 import springbootStudy.spring_boot_study.controller.Form.UpLoadForm;
 import springbootStudy.spring_boot_study.domain.Board;
+import springbootStudy.spring_boot_study.domain.FileEntity;
 import springbootStudy.spring_boot_study.service.BoardService;
+import springbootStudy.spring_boot_study.service.FileService;
 
+import org.springframework.core.io.Resource;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BoardController {
 
     private final BoardService boardService;
+    private final FileService fileService;
 
     @Autowired
-    public BoardController(BoardService boardService) {
+    public BoardController(BoardService boardService, FileService fileService) {
         this.boardService = boardService;
+        this.fileService = fileService;
     }
 
     @ModelAttribute
@@ -54,8 +67,6 @@ public class BoardController {
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
 
-        System.out.println("nowPage: "+ nowPage);
-        System.out.println("boards.getTotalPages() = " + boards.getTotalPages());
         return "board/boardList";
     }
 
@@ -69,12 +80,17 @@ public class BoardController {
     }
 
     @PostMapping("/board/new")
-    public String realUpload(UpLoadForm form){
+    public String realUpload(UpLoadForm form, @RequestParam("file") MultipartFile file){
         Board board = new Board();
         board.setTitle(form.getTitle());
         board.setWriter(form.getWriter());
         board.setContent(form.getContent());
-        boardService.upload(board);
+
+        board = boardService.upload(board);
+
+        if (file != null && !file.isEmpty()) {
+            fileService.fileSave(file,board.getNum());
+        }
         return "redirect:/board";
     }
 
@@ -82,6 +98,8 @@ public class BoardController {
     public String detailView(@PathVariable("num") Long num, Model model){
         boardService.cntUp(num);
         Board board = boardService.selectOne(num);
+        FileEntity file = fileService.fileExtractor(num);
+        model.addAttribute("file",file);
         model.addAttribute("board",board);
         return "board/detailView";
     }
@@ -108,8 +126,41 @@ public class BoardController {
 
     @PostMapping("/board/delete/{num}")
     public String realDelete(@PathVariable("num") Long num){
+        fileService.fileDelete(num);
         boardService.deleteBoard(num);
         return "redirect:/board";
+    }
+
+
+
+
+
+
+
+    // 다운로드 로직
+    @GetMapping("/download/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+        Resource resource = fileService.loadFileAsResource(fileName);
+
+        String s = "스";
+        byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
+
+        // 콘텐츠 타입 결정
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            // 파일 타입을 결정하지 못하는 경우
+            contentType = "application/octet-stream";
+        }
+
+        // 적절한 Content-Disposition 헤더 설정
+        String contentDisposition = "attachment; filename=\"" + resource.getFilename() + "\"";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .body(resource);
     }
 
     public String getNickNameCookie(HttpServletRequest request) {
